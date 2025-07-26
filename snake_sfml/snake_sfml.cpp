@@ -1,20 +1,38 @@
-﻿// snake_sfml.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
-
-#include <iostream>
+﻿#include <SFML/Graphics.hpp>
 
 int main()
 {
-    std::cout << "Hello World!\n";
+
+    sf::RenderWindow window(sf::VideoMode(600, 400), L"Иллюзия", sf::Style::Default);
+
+    window.setVerticalSyncEnabled(true);
+    sf::Vector2f a1{ 100,100 };
+    sf::Vector2f a2{ 500,200 };
+    sf::Vector2f a3{ 500,200 };
+    sf::Vector2f a4{ 100,300 };
+    bool lu = true;
+    sf::ConvexShape convex;
+    convex.setPointCount(4);
+    convex.setFillColor(sf::Color::Magenta);
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        if (lu) { a1.y += 1; a4.y -= 1; a2.y -= 1; a3.y += 1; if (a1.y > 200) lu = false; }
+        else { a1.y -= 1; a4.y += 1; a2.y += 1; a3.y -= 1; if (a1.y < 100) lu = true; }
+        convex.setPoint(0, a1);
+        convex.setPoint(1, a2);
+        convex.setPoint(2, a3);
+        convex.setPoint(3, a4);
+        window.clear(sf::Color::Blue);
+        window.draw(convex);
+        window.display();
+    }
+    return 0;
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
